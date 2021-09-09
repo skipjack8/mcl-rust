@@ -71,81 +71,81 @@ fn main() {
         println!("ng");
     }
 
-    let x = Fr::from_str("21888242871839275222246405745257275088548364400416034343698204186575808495616", 10).unwrap();
-    let y = Fr::from_str("2", 10).unwrap();
-    let mut z = unsafe { Fr::uninit() };
-    Fr::add(&mut z, &x, &y);
-    println!("{:?}",z.get_str(10));
-
-    let random_el = make_random_elements(10);
-    for e in random_el.iter(){
-        println!("{:?}",e.get_str(16));
-    }
-
-    let ffr_vec = convert_elements(&random_el);
-    for e in ffr_vec.iter() {
-        println!("{:?}",e);
-    }
+    // let x = Fr::from_str("21888242871839275222246405745257275088548364400416034343698204186575808495616", 10).unwrap();
+    // let y = Fr::from_str("2", 10).unwrap();
+    // let mut z = unsafe { Fr::uninit() };
+    // Fr::add(&mut z, &x, &y);
+    // println!("{:?}",z.get_str(10));
+    //
+    // let random_el = make_random_elements(10);
+    // for e in random_el.iter(){
+    //     println!("{:?}",e.get_str(16));
+    // }
+    //
+    // let ffr_vec = convert_elements(&random_el);
+    // for e in ffr_vec.iter() {
+    //     println!("{:?}",e);
+    // }
 
 
 }
 
-use pairing_ce::bn256::Fr as FFr;
-use pairing_ce::ff::{Field,PrimeField};
-fn make_random_elements(num_elements: usize) -> Vec<Fr> {
-    let mut result = vec![Fr::zero(); num_elements];
-    for i in 0..num_elements {
-        result[i].set_by_csprng();
-    }
-
-    result
-}
-
-fn convert_elements(fr_vec: &Vec<Fr>) -> Vec<FFr> {
-    let mut r: Vec<FFr> = Vec::with_capacity(fr_vec.len());
-    unsafe{r.set_len(fr_vec.len())};
-
-    for (from, mut to) in fr_vec.iter().zip(r.iter_mut()) {
-        let s = from.get_str(10);
-        *to = FFr::from_str(&s).unwrap();
-    }
-
-    r
-}
-
-#[test]
-fn test_bench_fr_vs_ffr(){
-    use std::time::Instant;
-    let b = init(CurveType::SNARK);
-    if !b {
-        println!("init err");
-    }
-
-    //generate test data
-    let num_elements = 10000000usize;
-    let x = make_random_elements(num_elements);
-    let y = make_random_elements(num_elements);
-
-    // mcl
-    let mut z = vec![Fr::zero(); num_elements];
-
-    let now = Instant::now();
-    for i in 0..num_elements{
-        Fr::mul(&mut z[i], &x[i], &y[i]);
-    }
-    let total_proving = now.elapsed();
-    let proving_avg = total_proving / num_elements as u32;
-    let proving_avg = proving_avg.as_nanos();
-    println!("mcl taken {:?} ns", proving_avg);
-
-    let mut zz = convert_elements(&x);
-    let yy = convert_elements(&y);
-    let now = Instant::now();
-    for i in 0..num_elements{
-       zz[i].mul_assign(&yy[i]);
-    }
-    let total_proving = now.elapsed();
-    let proving_avg = total_proving / num_elements as u32;
-    let proving_avg = proving_avg.as_nanos();
-    println!("mcl taken {:?} ns", proving_avg);
-}
+// use pairing_ce::bn256::Fr as FFr;
+// use pairing_ce::ff::{Field,PrimeField};
+// fn make_random_elements(num_elements: usize) -> Vec<Fr> {
+//     let mut result = vec![Fr::zero(); num_elements];
+//     for i in 0..num_elements {
+//         result[i].set_by_csprng();
+//     }
+//
+//     result
+// }
+//
+// fn convert_elements(fr_vec: &Vec<Fr>) -> Vec<FFr> {
+//     let mut r: Vec<FFr> = Vec::with_capacity(fr_vec.len());
+//     unsafe{r.set_len(fr_vec.len())};
+//
+//     for (from, mut to) in fr_vec.iter().zip(r.iter_mut()) {
+//         let s = from.get_str(10);
+//         *to = FFr::from_str(&s).unwrap();
+//     }
+//
+//     r
+// }
+//
+// #[test]
+// fn test_bench_fr_vs_ffr(){
+//     use std::time::Instant;
+//     let b = init(CurveType::SNARK);
+//     if !b {
+//         println!("init err");
+//     }
+//
+//     //generate test data
+//     let num_elements = 10000000usize;
+//     let x = make_random_elements(num_elements);
+//     let y = make_random_elements(num_elements);
+//
+//     // mcl
+//     let mut z = vec![Fr::zero(); num_elements];
+//
+//     let now = Instant::now();
+//     for i in 0..num_elements{
+//         Fr::mul(&mut z[i], &x[i], &y[i]);
+//     }
+//     let total_proving = now.elapsed();
+//     let proving_avg = total_proving / num_elements as u32;
+//     let proving_avg = proving_avg.as_nanos();
+//     println!("mcl taken {:?} ns", proving_avg);
+//
+//     let mut zz = convert_elements(&x);
+//     let yy = convert_elements(&y);
+//     let now = Instant::now();
+//     for i in 0..num_elements{
+//        zz[i].mul_assign(&yy[i]);
+//     }
+//     let total_proving = now.elapsed();
+//     let proving_avg = total_proving / num_elements as u32;
+//     let proving_avg = proving_avg.as_nanos();
+//     println!("mcl taken {:?} ns", proving_avg);
+// }
