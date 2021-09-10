@@ -427,7 +427,7 @@ macro_rules! ec_impl {
 #[derive(Default, Debug, Clone)]
 #[repr(C)]
 pub struct Fp {
-    d: [u64; MCLBN_FP_UNIT_SIZE],
+    pub d: [u64; MCLBN_FP_UNIT_SIZE],
 }
 impl Fp {
     pub fn get_order() -> String {
@@ -460,7 +460,7 @@ field_mul_op_impl![Fp, mclBnFp_mul, mclBnFp_div, mclBnFp_inv, mclBnFp_sqr];
 #[derive(Default, Debug, Clone)]
 #[repr(C)]
 pub struct Fp2 {
-    d: [Fp; 2],
+    pub d: [Fp; 2],
 }
 common_impl![Fp2, mclBnFp2_isEqual, mclBnFp2_isZero];
 serialize_impl![
@@ -481,7 +481,7 @@ impl Fp2 {
 #[derive(Default, Debug, Clone)]
 #[repr(C)]
 pub struct Fr {
-    d: [u64; MCLBN_FR_UNIT_SIZE],
+    pub d: [u64; MCLBN_FR_UNIT_SIZE],
 }
 impl Fr {
     pub fn get_order() -> String {
@@ -564,7 +564,7 @@ ec_impl![
 #[derive(Default, Debug, Clone)]
 #[repr(C)]
 pub struct GT {
-    d: [Fp; 12],
+    pub d: [Fp; 12],
 }
 common_impl![GT, mclBnGT_isEqual, mclBnGT_isZero];
 serialize_impl![
