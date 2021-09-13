@@ -478,7 +478,7 @@ impl Fp2 {
     }
 }
 
-#[derive(Default, Debug, Clone)]
+#[derive(Default, Debug, Copy, Clone)]
 #[repr(C)]
 pub struct Fr {
     pub d: [u64; MCLBN_FR_UNIT_SIZE],
