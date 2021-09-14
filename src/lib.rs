@@ -49,7 +49,7 @@ extern "C" {
     fn mclBnFr_mul(z: *mut Fr, x: *const Fr, y: *const Fr);
     fn mclBnFr_div(z: *mut Fr, x: *const Fr, y: *const Fr);
     fn mclBnFr_inv(y: *mut Fr, x: *const Fr);
-    fn mclBnFr_sqr(y: *mut Fr, x: *const Fr);
+    pub fn mclBnFr_sqr(y: *mut Fr, x: *const Fr);
     fn mclBnFr_squareRoot(y: *mut Fr, x: *const Fr) -> i32;
 
     // Fp
